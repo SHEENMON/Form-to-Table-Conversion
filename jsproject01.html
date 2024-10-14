@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="nav mr-5">
+            <h3 class="text-muted">Project name</h3>
+        </div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarnav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarnav">
+            <ul class="navbar-nav">
+                <li class="nav-item active mr-2">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+                <li class="nav-item mr-2"> 
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item mr-2"> 
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <h5 class="text-secondary"><small>Logged in as Username</small></h5>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row mt-2">
+            <div class="col-sm-4">
+                <!-- Table for input fields -->
+                <table border="4" class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <td><input type="text" name="name" id="name" class="form-control" required></td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>Age</th>
+                            <td><input type="number" name="age" class="form-control" id="age" min="18" max="22" required></td>
+                        </tr>
+                        <tr>
+                            <th>Gender</th>
+                            <td>
+                                <input type="radio" name="gender" id="male" value="Male" required> Male
+                                <input type="radio" name="gender" id="female" value="Female"> Female
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Course</th>
+                            <td>
+                                <select id="course" class="form-control" required>
+                                    <option value="" disabled selected>Select Course</option>
+                                    <option value="HTML">HTML</option>
+                                    <option value="JavaScript">JavaScript</option>
+                                    <option value="Python">Python</option>
+                                    <option value="React">React</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Email</th>
+                            <td><input type="email" class="form-control" name="email" id="email" required></td>
+                        </tr>
+                        <tr id="btna">
+                            <td colspan="2"><button name="button" class="btn btn-primary btn-block" id="btn" onclick="AddRow()">Save</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-sm-8">
+                <!-- Table for displaying the input -->
+                <table border="4" id="show" class="table table-bordered">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Gender</th>
+                            <th>Course</th>
+                            <th>Email</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Added rows will appear here -->
+                    </tbody>
+                </table>
+                <script>
+
+                    var list1 = [];
+                    var list2 = [];
+                    var list3 = [];
+                    var list4 = [];
+                    var list5 = [];
+                    var list6 = [];
+
+
+                    var n = 1;
+                    var x = 0;
+
+                    function AddRow(){
+                        var AddRown = document.getElementById('show');
+                        var NewRow = AddRown.insertRow(n);
+
+                        list1[x] = document.getElementById("name").value;
+                        list2[x] = document.getElementById("age").value;
+                        list5[x] = document.getElementById("email").value;
+                        list6[x] = '<button onclick="RemoveRow(this)" class="btn btn-danger btn-block" >Delete</button>';
+
+            // Get the value of the selected gender radio button
+                        var gender = document.querySelector('input[name="gender"]:checked');
+                        if (gender) {
+                            list3[x] = gender.value;
+                        } else {
+                list3[x] = ''; // If no gender is selected
+            }
+
+            // Get the selected course from the dropdown
+            var course = document.getElementById("course").value;
+            if (course) {
+                list4[x] = course;
+            } else {
+                list4[x] = ''; // If no course is selected
+            }
+
+            var cel1 = NewRow.insertCell(0);
+            var cel2 = NewRow.insertCell(1);
+            var cel3 = NewRow.insertCell(2);
+            var cel4 = NewRow.insertCell(3); // Cell for gender
+            var cel5 = NewRow.insertCell(4); // Cell for course
+            var cel6 = NewRow.insertCell(5);
+
+            cel1.innerHTML = list1[x];
+            cel2.innerHTML = list2[x];
+            cel3.innerHTML = list3[x];
+            cel4.innerHTML = list4[x];// Gender
+            cel5.innerHTML = list5[x]; // Course
+            cel6.innerHTML = list6[x];
+
+
+            n++;
+            x++;
+            // Clear the input fields after adding
+            document.getElementById("name").value = "";
+            document.getElementById("age").value = "";
+            document.getElementById("email").value = "";
+            document.querySelector('input[name="gender"]:checked').checked = false;
+            document.getElementById("course").value = ""; // Reset course
+            document.getElementById("email").value = "";
+        }
+
+        // Function to remove a row
+        function RemoveRow(btn) {
+            var row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            n--; // Adjust the row count when a row is removed
+        }
+
+    </script>
+</div>
+</div>
+</div>
+
+</body>
+</html>
